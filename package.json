@@ -5,6 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.17.2",
+    "express-session": "^1.17.2",
     "hbs": "^4.2.0",
     "mongodb": "^4.3.0"
   },

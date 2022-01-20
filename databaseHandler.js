@@ -15,4 +15,15 @@ async function insertObject(collectionName,objectToInsert){
     console.log("Gia tri id moi duoc insert la: ", newObject.insertedId.toHexString());
 }
 
-module.exports = {insertObject}
+async function checkUserRole(nameI,passI){
+    const dbo = await getDB();
+    const user= await dbo.collection("Users").findOne({userName:nameI,password:passI});
+    if (user==null) {
+        return "-1"
+    }else{
+        console.log(user)
+        return user.role;
+    }
+}
+
+module.exports = {insertObject,checkUserRole}
