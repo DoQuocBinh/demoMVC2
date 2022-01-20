@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping</title>
+</head>
+<body>
+    <h1>Select your products</h1>
+    <a href="/viewCart">View Cart</a>
+    <form action="/buy" method="post">
+        {{!-- <img src="milk.jpg" width="40" height="50"/>
+        <input type="submit" name="product" value="Milk"/> --}}
+        <input type="hidden"  name="product" value="Milk">
+        <input type="image" src="milk.jpg" alt="Submit" width="48" height="48">
+    </form>
+    <br>
+    <form action="/buy" method="post">
+        <input type="hidden"  name="product" value="Coffee">
+        <input type="image" src="coffee.jpg" alt="Submit" width="48" height="48">
+    </form>
+</body>
+</html>
