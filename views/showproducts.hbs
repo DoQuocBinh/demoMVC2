@@ -11,19 +11,19 @@
       <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
 
        <script>
-         $(function() {
-            $( "#dialog-1" ).dialog({
-               autoOpen: false,  
-            });        
-         });
+        {{#if products}}
+            $(function() {
+                $( "#dialog-1" ).dialog({
+                    autoOpen: true,
+                });        
+            });
+        {{/if}}
       </script>
     <title>Shopping</title>
 </head>
 <script>
     function confirmBuy(productName){
         const userAgree = confirm('Are your sure to buy ' + productName+'?')
-        if(!userAgree)
-            $( "#dialog-1" ).dialog( "open" );
         return userAgree
     }
 </script>
@@ -41,8 +41,16 @@
         <input type="hidden" name="product" value="Coffee">
         <input id="submitCoffee" type="image" src="coffee.jpg" alt="Submit" width="48" height="48">
     </form>
+ {{#if products}}   
 <div id = "dialog-1" 
-         title = "Ban da Cancelled">Thank you!</div>
+         title = "Ban da Mua"><ul>
+        {{#each products}}
+            <li>{{tensp}} - {{soLuong}}</li>
+        {{/each}}
+    </ul>
+</div>
+{{/if}}
+
 </body>
 
 </html>

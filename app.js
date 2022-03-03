@@ -14,36 +14,36 @@ const { checkUserRole } = require('./databaseHandler')
 //cac request co chua /admin se di den controller admin
 app.use('/admin', adminController)
 
-app.get('/',(req,res)=>{
+app.get('/', (req, res) => {
     const user = req.session["User"]
-    res.render('index',{userInfo:user})
-    
+    res.render('index', { userInfo: user })
+
 })
 
-app.get('/shopping',(req,res)=>{
+app.get('/shopping', (req, res) => {
     res.render('showproducts')
 })
 
-app.post('/buy',(req,res)=>{
+app.post('/buy', (req, res) => {
     //xem nguoi dung mua gi: Milk hay Coffee
     const product = req.body.product
     //lay gio hang trong session
     let cart = req.session["cart"]
     //chua co gio hang trong session, day se la sp dau tien
-    if(!cart){
+    if (!cart) {
         let dict = {}
         dict[product] = 1
         req.session["cart"] = dict
         console.log("Ban da mua:" + product + ", so luong: " + dict[product])
-    }else{
-        dict = req.session["cart"]
+    } else {
+        const dict = req.session["cart"]
         //co lay product trong dict
         var oldProduct = dict[product]
         //kiem tra xem product da co trong Dict
-        if(!oldProduct)
+        if (!oldProduct)
             dict[product] = 1
-        else{
-            dict[product] = parseInt(oldProduct) +1
+        else {
+            dict[product] = parseInt(oldProduct) + 1
         }
         req.session["cart"] = dict
         console.log("Ban da mua:" + product + ", so luong: " + dict[product])
@@ -57,28 +57,34 @@ app.post('/buy',(req,res)=>{
     // }
     // console.log("Ban vua cap nhat sp" + product + " so luong: " + req.session[product])
 
-    res.render('showproducts')
+    let spDaMua = []
+    //neu khach hang da mua it nhat 1 sp
+    const dict = req.session["cart"]
+    for (var key in dict) {
+        spDaMua.push({ tensp: key, soLuong: dict[key] })
+    }
+    res.render('showproducts', { products: spDaMua })
 })
 
-app.get('/viewCart',(req,res)=>{
+app.get('/viewCart', (req, res) => {
     const cart = req.session["cart"]
     //Mot array chua cac san pham trong gio hang
     let spDaMua = []
     //neu khach hang da mua it nhat 1 sp
-    if(cart){
+    if (cart) {
         const dict = req.session["cart"]
-        for(var key in dict) {
-            spDaMua.push({tensp: key,soLuong: dict[key]})
-         }
+        for (var key in dict) {
+            spDaMua.push({ tensp: key, soLuong: dict[key] })
+        }
     }
-    res.render('mycart',{products:spDaMua})
+    res.render('mycart', { products: spDaMua })
 })
 
-app.get('/login',(req,res)=>{
+app.get('/login', (req, res) => {
     res.render('loginpage')
 })
 
-app.post('/login',async (req,res)=>{
+app.post('/login', async (req, res) => {
     const name = req.body.txtName
     const pass = req.body.txtPass
     const role = await checkUserRole(name, pass)
@@ -96,10 +102,10 @@ app.post('/login',async (req,res)=>{
 })
 
 //custom middleware
-function requiresLogin(req,res,next){
-    if(req.session["User"]){
+function requiresLogin(req, res, next) {
+    if (req.session["User"]) {
         return next()
-    }else{
+    } else {
         res.redirect('/login')
     }
 }
