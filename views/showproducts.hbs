@@ -1,24 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+         rel = "stylesheet">
+      <script src = "https://code.jquery.com/jquery-1.10.2.js"></script>
+      <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+       <script>
+         $(function() {
+            $( "#dialog-1" ).dialog({
+               autoOpen: false,  
+            });        
+         });
+      </script>
     <title>Shopping</title>
 </head>
+<script>
+    function confirmBuy(productName){
+        const userAgree = confirm('Are your sure to buy ' + productName+'?')
+        if(!userAgree)
+            $( "#dialog-1" ).dialog( "open" );
+        return userAgree
+    }
+</script>
 <body>
     <h1>Select your products</h1>
     <a href="/viewCart">View Cart</a>
-    <form action="/buy" method="post">
-        {{!-- <img src="milk.jpg" width="40" height="50"/>
-        <input type="submit" name="product" value="Milk"/> --}}
-        <input type="hidden"  name="product" value="Milk">
-        <input type="image" src="milk.jpg" alt="Submit" width="48" height="48">
+    <form action="/buy" method="post" onsubmit="return confirmBuy('milk')">
+        {{!-- <img src="milk.jpg" width="40" height="50" />
+        <input type="submit" name="product" value="Milk" /> --}}
+        <input type="hidden" name="product" value="Milk">
+        <input id="submitMilk" type="image"  src="milk.jpg" alt="Submit" width="48" height="48">
     </form>
     <br>
-    <form action="/buy" method="post">
-        <input type="hidden"  name="product" value="Coffee">
-        <input type="image" src="coffee.jpg" alt="Submit" width="48" height="48">
+    <form action="/buy" method="post" onsubmit="return confirmBuy('coffee')">
+        <input type="hidden" name="product" value="Coffee">
+        <input id="submitCoffee" type="image" src="coffee.jpg" alt="Submit" width="48" height="48">
     </form>
+<div id = "dialog-1" 
+         title = "Ban da Cancelled">Thank you!</div>
 </body>
+
 </html>

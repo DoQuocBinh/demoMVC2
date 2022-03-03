@@ -14,7 +14,7 @@ const { checkUserRole } = require('./databaseHandler')
 //cac request co chua /admin se di den controller admin
 app.use('/admin', adminController)
 
-app.get('/',requiresLogin,(req,res)=>{
+app.get('/',(req,res)=>{
     const user = req.session["User"]
     res.render('index',{userInfo:user})
     
